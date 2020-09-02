@@ -1894,7 +1894,7 @@ function isMergable(actionContext) {
             if (!actionContext.context.payload.pull_request)
                 throw Error('This action only works if the trigger is a pull request');
             const pullRequest = yield actionContext.octokit.pulls.get(Object.assign(Object.assign({}, actionContext.context.repo), { pull_number: actionContext.context.payload.pull_request.number }));
-            actionContext.setOutput('mergable', pullRequest.data.mergeable ? 'true' : 'false');
+            actionContext.setOutput('mergeable', pullRequest.data.mergeable ? 'true' : 'false');
         }
         catch (error) {
             actionContext.setFailed(error.message);
