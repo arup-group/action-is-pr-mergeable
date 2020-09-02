@@ -13,10 +13,7 @@ export async function isMergable(actionContext: ActionContext): Promise<void> {
 
     actionContext.debug(util.inspect(pullRequest.data, true, 10))
 
-    actionContext.setOutput(
-      'mergeable',
-      pullRequest.data.mergeable ? 'true' : 'false'
-    )
+    actionContext.setOutput('mergeable_state', pullRequest.data.mergeable_state)
   } catch (error) {
     actionContext.setFailed(error.message)
   }
