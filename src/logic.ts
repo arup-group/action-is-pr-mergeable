@@ -1,4 +1,5 @@
 import {ActionContext} from './action-context'
+import * as util from 'util'
 
 export async function isMergable(actionContext: ActionContext): Promise<void> {
   try {
@@ -9,6 +10,8 @@ export async function isMergable(actionContext: ActionContext): Promise<void> {
       ...actionContext.context.repo,
       pull_number: actionContext.context.payload.pull_request.number
     })
+
+    actionContext.debug(util.inspect(pullRequest.data, true, 10))
 
     actionContext.setOutput(
       'mergeable',
