@@ -1908,12 +1908,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isMergable = void 0;
 const util = __importStar(__webpack_require__(669));
+const core_1 = __webpack_require__(186);
 function isMergable(actionContext) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            if (!actionContext.context.payload.pull_request)
-                throw Error('This action only works if the trigger is a pull request');
-            const pullRequest = yield actionContext.octokit.pulls.get(Object.assign(Object.assign({}, actionContext.context.repo), { pull_number: actionContext.context.payload.pull_request.number }));
+            const pullNumberString = core_1.getInput('pull_number');
+            if (!pullNumberString)
+                throw Error('This action only works if a PR number is given');
+            const pull_number = Number(pullNumberString);
+            const pullRequest = yield actionContext.octokit.pulls.get(Object.assign(Object.assign({}, actionContext.context.repo), { pull_number }));
             actionContext.debug(util.inspect(pullRequest.data, true, 10));
             actionContext.setOutput('mergeable_state', pullRequest.data.mergeable_state);
         }

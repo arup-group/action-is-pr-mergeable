@@ -1,14 +1,19 @@
 import {ActionContext} from './action-context'
 import * as util from 'util'
+import {getInput} from '@actions/core'
 
 export async function isMergable(actionContext: ActionContext): Promise<void> {
   try {
-    if (!actionContext.context.payload.pull_request)
-      throw Error('This action only works if the trigger is a pull request')
+    const pullNumberString = getInput('pull_number')
+
+    if (!pullNumberString)
+      throw Error('This action only works if a PR number is given')
+
+    const pull_number = Number(pullNumberString)
 
     const pullRequest = await actionContext.octokit.pulls.get({
       ...actionContext.context.repo,
-      pull_number: actionContext.context.payload.pull_request.number
+      pull_number
     })
 
     actionContext.debug(util.inspect(pullRequest.data, true, 10))

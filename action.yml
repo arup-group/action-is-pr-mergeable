@@ -1,6 +1,10 @@
 name: 'Is PR Mergable'
 description: 'Returns if current PR is mergable'
 author: 'Peterjgrainger'
+inputs:
+  pull_number: # change this
+    required: true
+    description: 'Pull request number'
 runs:
   using: 'node12'
   main: 'dist/index.js'
